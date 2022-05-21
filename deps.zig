@@ -10,7 +10,15 @@ pub const pkgs = struct {
         },
     };
 
+    pub const gl = Pkg{
+        .name = "gl",
+        .path = FileSource{
+            .path = ".gyro\\zgl-ziglibs-github.com-ebc646aa\\pkg\\zgl.zig",
+        },
+    };
+
     pub fn addAllTo(artifact: *std.build.LibExeObjStep) void {
         artifact.addPackage(pkgs.glfw);
+        artifact.addPackage(pkgs.gl);
     }
 };
