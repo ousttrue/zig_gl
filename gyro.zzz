@@ -1,0 +1,6 @@
+deps:
+  glfw:
+    git:
+      url: "https://github.com/hexops/mach-glfw.git"
+      ref: dae779de57593bcc689f55af17ae95eb0513b918
+      root: src/main.zig
