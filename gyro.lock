@@ -1,0 +1,2 @@
+git https://github.com/hexops/mach-glfw.git dae779de57593bcc689f55af17ae95eb0513b918 build.zig dae779de57593bcc689f55af17ae95eb0513b918
+git https://github.com/hexops/mach-glfw.git dae779de57593bcc689f55af17ae95eb0513b918 src/main.zig dae779de57593bcc689f55af17ae95eb0513b918

@@ -1,7 +1,9 @@
 const std = @import("std");
+const glfw = @import("glfw");
 
 pub fn main() anyerror!void {
-    std.log.info("All your codebase are belong to us.", .{});
+    try glfw.init(.{});
+    defer glfw.terminate();  
 }
 
 test "basic test" {
