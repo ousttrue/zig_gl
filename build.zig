@@ -18,14 +18,19 @@ pub fn build(b: *std.build.Builder) void {
     exe.setBuildMode(mode);
     exe.addPackage(pkgs.glfw);
     glfw.link(b, exe, .{});    
-    exe.addIncludePath("libepoxy-1.5.10/include");
-    exe.addIncludePath("libepoxy-1.5.10/src");
-    exe.addIncludePath("libepoxy-1.5.10/_build/include");
-    exe.addIncludePath("libepoxy-1.5.10/_build/src");
-    exe.addCSourceFile("libepoxy-1.5.10/src/dispatch_common.c", &.{});
-    exe.addCSourceFile("libepoxy-1.5.10/src/dispatch_wgl.c", &.{});
-    exe.addCSourceFile("libepoxy-1.5.10/_build/src/gl_generated_dispatch.c", &.{});
-    exe.addCSourceFile("libepoxy-1.5.10/_build/src/wgl_generated_dispatch.c", &.{});
+    exe.addIncludePath("libepoxy/include");
+    exe.addIncludePath("libepoxy/src");
+    exe.addCSourceFile("libepoxy/src/dispatch_common.c", &.{});
+    exe.addCSourceFile("libepoxy/src/dispatch_wgl.c", &.{});
+    // require
+    // mkdir libepoxy_build
+    // cd libepoxy_build
+    // meson
+    // ninja
+    exe.addIncludePath("libepoxy_build/include");
+    exe.addIncludePath("libepoxy_build/src");
+    exe.addCSourceFile("libepoxy_build/src/gl_generated_dispatch.c", &.{});
+    exe.addCSourceFile("libepoxy_build/src/wgl_generated_dispatch.c", &.{});
     exe.install();
 
     const run_cmd = exe.run();
