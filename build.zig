@@ -1,6 +1,7 @@
 const std = @import("std");
 const pkgs = @import("deps.zig").pkgs;
 const glfw = @import("build-glfw");
+const imgui_pkg = @import("deps/imgui/deps.zig").pkgs;
 
 pub fn build(b: *std.build.Builder) void {
     // Standard target options allows the person running `zig build` to choose
@@ -38,6 +39,15 @@ pub fn build(b: *std.build.Builder) void {
         exe.addCSourceFile("libepoxy/src/dispatch_egl.c", &.{});
         exe.addCSourceFile("libepoxy_build/src/egl_generated_dispatch.c", &.{});
     }
+
+    // imgui
+    exe.linkSystemLibrary("c");
+    exe.linkSystemLibrary("c++");
+    const imguiFlags = [_][]const u8{ "-std=c++11", "-Ideps/imgui/deps/imgui" };
+    exe.addCSourceFile("deps/imgui/deps/imgui/imgui.cpp", &imguiFlags);
+    exe.addCSourceFile("deps/imgui/deps/imgui/imgui_draw.cpp", &imguiFlags);
+    exe.addCSourceFile("deps/imgui/deps/imgui/imgui_widgets.cpp", &imguiFlags);
+    exe.addCSourceFile("deps/imgui/deps/imgui/imgui_tables.cpp", &imguiFlags);
 
     exe.install();
 

@@ -23,5 +23,13 @@
             "environment": [],
             "console": "integratedTerminal"
         },
+        {
+            "name": "Python: generate imgui",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/deps/imgui/generator.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
     ]
 }

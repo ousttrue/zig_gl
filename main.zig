@@ -2,6 +2,7 @@ const std = @import("std");
 // const glfw = @import("glfw");
 const glfw = @import(".gyro/mach-glfw-hexops-github.com-dae779de/pkg/src/main.zig");
 const zgl = @import(".gyro/zgl-ziglibs-github.com-ebc646aa/pkg/zgl.zig");
+const imgui = @import("deps/imgui/src/main.zig");
 
 pub fn main() anyerror!void {
     try glfw.init(.{});
@@ -9,6 +10,8 @@ pub fn main() anyerror!void {
 
     const window = try glfw.Window.create(640, 480, "zig glfw sample", null, null, .{});
     defer window.destroy();
+
+    _ = imgui.CreateContext(null);
 
     try glfw.makeContextCurrent(window);
     while (!window.shouldClose()) {
