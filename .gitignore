@@ -2,3 +2,5 @@
 /zig-out/
 /.gyro/
 *.log
+deps/imgui/src/main.zig
+deps.zig
