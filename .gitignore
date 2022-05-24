@@ -4,3 +4,4 @@
 *.log
 deps/imgui/src/main.zig
 deps.zig
+imgui.ini

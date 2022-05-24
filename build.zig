@@ -48,6 +48,9 @@ pub fn build(b: *std.build.Builder) void {
     exe.addCSourceFile("deps/imgui/deps/imgui/imgui_draw.cpp", &imguiFlags);
     exe.addCSourceFile("deps/imgui/deps/imgui/imgui_widgets.cpp", &imguiFlags);
     exe.addCSourceFile("deps/imgui/deps/imgui/imgui_tables.cpp", &imguiFlags);
+    exe.addCSourceFile("deps/imgui/deps/imgui/imgui_demo.cpp", &imguiFlags);
+    exe.addCSourceFile("deps/imgui/deps/imgui/backends/imgui_impl_glfw.cpp", &imguiFlags);
+    exe.addCSourceFile("deps/imgui/deps/imgui/backends/imgui_impl_opengl3.cpp", &imguiFlags);
 
     exe.install();
 
