@@ -1,3 +1,4 @@
+from typing import Optional
 import pathlib
 HERE = pathlib.Path(__file__).absolute().parent
 
@@ -26,7 +27,13 @@ pub const ImVector = extern struct {
     from rawtypes.generator.zig_generator import ZigGenerator
     generator = ZigGenerator(*headers)
 
-    generator.generate(DST)
+    from rawtypes.interpreted_types.basetype import BaseType
+
+    def custom(t: BaseType) -> Optional[str]:
+        if t.name.startswith('ImVector<'):
+            return 'ImVector'
+
+    generator.generate(DST, custom=custom)
 
 
 if __name__ == '__main__':
