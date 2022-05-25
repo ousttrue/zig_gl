@@ -56,7 +56,7 @@ pub fn main() anyerror!void {
     // Setup Platform/Renderer backends
     _ = imgui.ImGui_ImplGlfw_InitForOpenGL(window.handle, true);
     defer imgui.ImGui_ImplGlfw_Shutdown();
-    _ = imgui.ImGui_ImplOpenGL3_Init(.{.glsl_version=glsl_version});
+    _ = imgui.ImGui_ImplOpenGL3_Init(.{ .glsl_version = glsl_version });
     defer imgui.ImGui_ImplOpenGL3_Shutdown();
 
     //     // Load Fonts
@@ -76,11 +76,11 @@ pub fn main() anyerror!void {
 
     //     // Our state
     var show_demo_window: c_int = 1;
-    // var show_another_window: c_int = 1;
-    const clear_color: imgui.ImVec4 = .{ .x=0.45, .y=0.55, .z=0.60, .w=1.00 };
+    var show_another_window: c_int = 1;
+    var clear_color: imgui.ImVec4 = .{ .x = 0.45, .y = 0.55, .z = 0.60, .w = 1.00 };
 
-    // var f: f32 = 0.0;
-    // var counter: i32 = 0;
+    var f: f32 = 0.0;
+    var counter: i32 = 0;
     while (!window.shouldClose()) {
         try glfw.pollEvents();
 
@@ -91,37 +91,36 @@ pub fn main() anyerror!void {
 
         // 1. Show the big demo window (Most of the sample code is in imgui.ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window != 0)
-            imgui.ShowDemoWindow(.{.p_open=&show_demo_window});
+            imgui.ShowDemoWindow(.{ .p_open = &show_demo_window });
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-        // {
-        //     imgui.Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
+        {
+            _ = imgui.Begin("Hello, world!", .{}); // Create a window called "Hello, world!" and append into it.
 
-        //     imgui.Text("This is some useful text."); // Display some text (you can use a format strings too)
-        //     imgui.Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
-        //     imgui.Checkbox("Another Window", &show_another_window);
+            imgui.Text("This is some useful text."); // Display some text (you can use a format strings too)
+            _ = imgui.Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
+            _ = imgui.Checkbox("Another Window", &show_another_window);
 
-        //     imgui.SliderFloat("float", &f, 0.0, 1.0); // Edit 1 float using a slider from 0.0f to 1.0f
-        //     imgui.ColorEdit3("clear color", &clear_color); // Edit 3 floats representing a color
+            _ = imgui.SliderFloat("float", &f, 0.0, 1.0, .{}); // Edit 1 float using a slider from 0.0f to 1.0f
+            _ = imgui.ColorEdit3("clear color", &clear_color.x, .{}); // Edit 3 floats representing a color
 
-        //     if (imgui.Button("Button")) // Buttons return true when clicked (most widgets return true when edited/activated)
-        //         counter += 1;
-        //     imgui.SameLine();
-        //     imgui.Text("counter = %d", counter);
+            if (imgui.Button("Button", .{})) // Buttons return true when clicked (most widgets return true when edited/activated)
+                counter += 1;
+            imgui.SameLine(.{});
+            // imgui.Text("counter = %d", counter);
 
-        //     imgui.Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0 / imgui.GetIO().Framerate, imgui.GetIO().Framerate);
-        //     imgui.End();
-        // }
+            // imgui.Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0 / imgui.GetIO().Framerate, imgui.GetIO().Framerate);
+            imgui.End();
+        }
 
-        //         // 3. Show another simple window.
-        //         if (show_another_window)
-        //         {
-        //             imgui.Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        //             imgui.Text("Hello from another window!");
-        //             if (imgui.Button("Close Me"))
-        //                 show_another_window = false;
-        //             imgui.End();
-        //         }
+        // 3. Show another simple window.
+        if (show_another_window != 0) {
+            _ = imgui.Begin("Another Window", .{ .p_open = &show_another_window }); // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+            imgui.Text("Hello from another window!");
+            if (imgui.Button("Close Me", .{}))
+                show_another_window = 0;
+            imgui.End();
+        }
 
         // Rendering
         imgui.Render();
