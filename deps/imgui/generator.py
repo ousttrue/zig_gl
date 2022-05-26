@@ -10,9 +10,11 @@ IMGUI_IMPL_OPENGL3 = IMGUI_DIR / 'backends/imgui_impl_opengl3.h'
 
 
 def main():
-    from rawtypes.parser.header import Header
+    from rawtypes.parser.header import Header, StructConfiguration
     headers = [
-        Header(IMGUI_HEADER, include_dirs=[IMGUI_DIR], begin='''
+        Header(IMGUI_HEADER, include_dirs=[IMGUI_DIR],
+               structs=[StructConfiguration('ImFontAtlas', methods=True)],
+               begin='''
 pub const ImVector = extern struct {
     Size: c_int,
     Capacity: c_int,

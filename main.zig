@@ -54,29 +54,33 @@ pub fn main() anyerror!void {
     }
 
     // Setup Platform/Renderer backends
-    _ = imgui.ImGui_ImplGlfw_InitForOpenGL(window.handle, true);
+    _ = imgui.ImGui_ImplGlfw_InitForOpenGL(@ptrCast(*imgui.GLFWwindow, window.handle), true);
     defer imgui.ImGui_ImplGlfw_Shutdown();
     _ = imgui.ImGui_ImplOpenGL3_Init(.{ .glsl_version = glsl_version });
     defer imgui.ImGui_ImplOpenGL3_Shutdown();
 
-    //     // Load Fonts
-    //     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use imgui.PushFont()/PopFont() to select them.
-    //     // - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
-    //     // - If the file cannot be loaded, the function will return NULL. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).
-    //     // - The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui_ImplXXXX_NewFrame below will call.
-    //     // - Read 'docs/FONTS.md' for more instructions and details.
-    //     // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
-    //     //io.Fonts->AddFontDefault();
-    //     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
-    //     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
-    //     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
-    //     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/ProggyTiny.ttf", 10.0f);
-    //     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
-    //     //IM_ASSERT(font != NULL);
+    // Load Fonts
+    // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use imgui.PushFont()/PopFont() to select them.
+    // - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
+    // - If the file cannot be loaded, the function will return NULL. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).
+    // - The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui_ImplXXXX_NewFrame below will call.
+    // - Read 'docs/FONTS.md' for more instructions and details.
+    // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
+    //io.Fonts->AddFontDefault();
+    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
+    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
+    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
+    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/ProggyTiny.ttf", 10.0f);
+    if (io.Fonts) |fonts| {
+        const font = fonts.AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 18.0, null, fonts.GetGlyphRangesJapanese());
+        std.debug.assert(font != null);
+    } else {
+        @panic("no fonts");
+    }
 
-    //     // Our state
-    var show_demo_window: c_int = 1;
-    var show_another_window: c_int = 1;
+    // Our state
+    var show_demo_window: bool = true;
+    var show_another_window: bool = true;
     var clear_color: imgui.ImVec4 = .{ .x = 0.45, .y = 0.55, .z = 0.60, .w = 1.00 };
 
     var f: f32 = 0.0;
@@ -90,8 +94,9 @@ pub fn main() anyerror!void {
         imgui.NewFrame();
 
         // 1. Show the big demo window (Most of the sample code is in imgui.ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window != 0)
+        if (show_demo_window) {
             imgui.ShowDemoWindow(.{ .p_open = &show_demo_window });
+        }
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
         {
@@ -114,11 +119,11 @@ pub fn main() anyerror!void {
         }
 
         // 3. Show another simple window.
-        if (show_another_window != 0) {
+        if (show_another_window) {
             _ = imgui.Begin("Another Window", .{ .p_open = &show_another_window }); // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
             imgui.Text("Hello from another window!");
             if (imgui.Button("Close Me", .{}))
-                show_another_window = 0;
+                show_another_window = false;
             imgui.End();
         }
 
